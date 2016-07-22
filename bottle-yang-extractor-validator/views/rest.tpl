@@ -28,12 +28,12 @@
         <li>A <code>xym_stderr</code> object with the output of the xym extraction step</li>
         <li>A <code>pyang_stderr</code> object with the output of the pyang validation step</li>
         <li>A <code>pyang_output</code> object with the output of the pyang tree rendering step</li>
-        <li>A <code>confdc_stderr</code> object with the output of the confdc compiler step</li>
+        <li>A <code>yanger_stderr</code> object with the output of the yanger compiler step</li>
       </ul>
     </p>
     <dl>
       <dt><code>/version</code></dt>
-      <dd>This URL returns the version strings for all involved components (validation application, xym, pyang and confdc).</dd>
+      <dd>This URL returns the version strings for all involved components (validation application, xym, pyang and yanger).</dd>
     </dl>
   </div>
 </body>

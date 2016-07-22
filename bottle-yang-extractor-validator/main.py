@@ -24,10 +24,10 @@ __version__ = "0.3"
 
 yang_import_dir = '/opt/local/share/yang'
 pyang_cmd = '/usr/local/bin/pyang'
-confdc_cmd = '/usr/local/bin/confdc'
-confdc_version = '6.2'
+xym_cmd = '/usr/local/bin/yanger'
+yanger_version = '6.2'
 
-versions = {"validator_version": __version__, "pyang_version": pyang.__version__, "xym_version": xym.__version__, "confdc_version": confdc_version }
+versions = {"validator_version": __version__, "pyang_version": pyang.__version__, "xym_version": xym.__version__, "yanger_version": yanger_version }
 
 debug = False
 
@@ -72,25 +72,25 @@ def create_output(url):
 	xym_stderr = result.getvalue()
 
 	for em in extracted_models:
-		pyang_stderr, pyang_output, confdc_stderr = validate_yangfile(em, workdir)
+		pyang_stderr, pyang_output, yanger_stderr = validate_yangfile(em, workdir)
 		results[em] = { "pyang_stderr": cgi.escape(pyang_stderr),
 						"pyang_output": cgi.escape(pyang_output),
 						"xym_stderr": cgi.escape(xym_stderr),
-						"confdc_stderr": cgi.escape(confdc_stderr) }
+						"yanger_stderr": cgi.escape(yanger_stderr) }
 
 	rmtree(workdir)
 
 	return results
 
 def validate_yangfile(infilename, workdir):
-	pyang_stderr = pyang_output = confdc_stderr = ""
+	pyang_stderr = pyang_output = yanger_stderr = ""
 	infile = os.path.join(workdir, infilename)
 	pyang_outfile = str(os.path.join(workdir, infilename) + '.pout')
 	pyang_resfile = str(os.path.join(workdir, infilename) + '.pres')
-	confdc_resfile = str(os.path.join(workdir, infilename) + '.cres')
+	yanger_resfile = str(os.path.join(workdir, infilename) + '.cres')
 
 	presfp = open(pyang_resfile, 'w+')
-	status = call([pyang_cmd, '-p', yang_import_dir, '-p', workdir, '--ietf', '-f', 'tree', infile, '-o', pyang_outfile], stderr = presfp)
+	status = call([pyang_cmd, '--strict', '-p', yang_import_dir, '-p', workdir, '--ietf', '-f', 'tree', infile, '-o', pyang_outfile], stderr = presfp)
 
 	if os.path.isfile(pyang_outfile):
 		outfp = open(pyang_outfile, 'r')
@@ -103,16 +103,16 @@ def validate_yangfile(infilename, workdir):
 	for line in presfp.readlines():
 		pyang_stderr += os.path.basename(line)
 
-	cresfp = open(confdc_resfile, 'w+')
-	status = call([confdc_cmd, '-W', 'all', '--yangpath', workdir, '--yangpath', yang_import_dir, '-c', infile], stderr = cresfp)
+	cresfp = open(yanger_resfile, 'w+')
+	status = call([yanger_cmd, '--strict', '-p', workdir, '-p', yang_import_dir, infile], stderr = cresfp)
 
 
 	cresfp.seek(0)
 
 	for line in cresfp.readlines():
-		confdc_stderr += os.path.basename(line)
+		yanger_stderr += os.path.basename(line)
 
-	return pyang_stderr, pyang_output, confdc_stderr
+	return pyang_stderr, pyang_output, yanger_stderr
 
 @route('/')
 @route('/validator')
@@ -158,8 +158,8 @@ def upload_file():
 				savedfiles.append(filename)
 
 	for file in savedfiles:
-		pyang_stderr, pyang_output, confdc_stderr = validate_yangfile(file, savedir)
-		results[file] = { "pyang_stderr": pyang_stderr, "pyang_output": pyang_output, "confdc_stderr": confdc_stderr}
+		pyang_stderr, pyang_output, yanger_stderr = validate_yangfile(file, savedir)
+		results[file] = { "pyang_stderr": pyang_stderr, "pyang_output": pyang_output, "yanger_stderr": yanger_stderr}
 
  	rmtree(savedir)
 
@@ -246,7 +246,7 @@ if __name__ == '__main__':
 
 	if args.confd_path:
 		confd_path = args.confd_path
-		confdc_cmd = confd_path + '/bin/confdc'
+		yanger_cmd = confd_path + '/bin/yanger'
 
 	install(log_to_logger)
 

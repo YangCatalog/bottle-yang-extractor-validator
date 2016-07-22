@@ -29,11 +29,11 @@
                 '<h3>XYM Extraction</h3><pre class="xymstderr"/>' +
                 '<h3>Pyang Validation</h3><pre class="pyangstderr"/>' +
                 '<h3>Pyang Output</h3><pre class="pyangoutput"/>' +
-                '<h3>Confdc Output</h3><pre class="confdcstderr"/>');
+                '<h3>Yanger Output</h3><pre class="yangerstderr"/>');
             $( '#' + sanitized + ' > pre.xymstderr' ).append(data[key].xym_stderr.length > 0 ? data[key].xym_stderr : "No warnings or errors");
             $( '#' + sanitized + ' > pre.pyangstderr' ).append(data[key].pyang_stderr.length > 0 ? data[key].pyang_stderr : "No warnings or errors");
             $( '#' + sanitized + ' > pre.pyangoutput' ).append(data[key].pyang_output.length > 0 ? data[key].pyang_output : "No output");
-            $( '#' + sanitized + ' > pre.confdcstderr' ).append(data[key].confdc_stderr.length > 0 ? data[key].confdc_stderr : "No warnings or errors");
+            $( '#' + sanitized + ' > pre.yangerstderr' ).append(data[key].yanger_stderr.length > 0 ? data[key].yanger_stderr : "No warnings or errors");
           }
         });
         return(false);
@@ -60,11 +60,11 @@
                 '<h3>XYM Extraction</h3><pre class="xymstderr"/>' +
                 '<h3>Pyang Validation</h3><pre class="pyangstderr"/>' +
                 '<h3>Pyang Output</h3><pre class="pyangoutput"/>' +
-                '<h3>Confdc Output</h3><pre class="confdcstderr"/>');
+                '<h3>Yanger Output</h3><pre class="yangerstderr"/>');
             $( '#' + sanitized + ' > pre.xymstderr' ).append(data[key].xym_stderr.length > 0 ? data[key].xym_stderr : "No warnings or errors");
             $( '#' + sanitized + ' > pre.pyangstderr' ).append(data[key].pyang_stderr.length > 0 ? data[key].pyang_stderr : "No warnings or errors");
             $( '#' + sanitized + ' > pre.pyangoutput' ).append(data[key].pyang_output.length > 0 ? data[key].pyang_output : "No output");
-            $( '#' + sanitized + ' > pre.confdcstderr' ).append(data[key].confdc_stderr.length > 0 ? data[key].confdc_stderr : "No output");          }
+            $( '#' + sanitized + ' > pre.yangerstderr' ).append(data[key].yanger_stderr.length > 0 ? data[key].yanger_stderr : "No output");          }
         });
         return(false);
       }); 
@@ -149,11 +149,11 @@
         <pre class="stderr">{{!content["pyang_stderr"] if len(content["pyang_stderr"]) != 0 else "No warnings or errors"}}</pre>
         <h3>Output</h3>
         <pre class="output">{{!content["pyang_output"] if len(content["pyang_output"]) != 0 else "No warnings or errors"}}</pre>
-        <pre class="output">{{!content["confdc_stderr"] if len(content["confdc_stderr"]) != 0 else "No warnings or errors"}}</pre>
+        <pre class="output">{{!content["yanger_stderr"] if len(content["yanger_stderr"]) != 0 else "No warnings or errors"}}</pre>
       </div>
     % end 
   % end
-    <small class="text-muted">validator version: {{versions["validator_version"]}}, xym version: {{versions["xym_version"]}}, pyang version: {{versions["pyang_version"]}} confdc version: {{versions["confdc_version"]}}</small>
+    <small class="text-muted">validator version: {{versions["validator_version"]}}, xym version: {{versions["xym_version"]}}, pyang version: {{versions["pyang_version"]}} yanger version: {{versions["yanger_version"]}}</small>
   </div>
 </body>
 

@@ -1,3 +1,8 @@
+3.1 - 2016-07-22
+  - Switched from 'confdc' to the 'yanger' compiler. Confdc actually uses
+    yanger internally but adds ConfD-specific features, thus yanger is more
+    appropriate as a general parser and validator.
+
 3.0 - 2016-07-16
   - Started a CHANGELOG to track major changes :-)
   - Added a new validation step using the confdc compiler from the ConfD
